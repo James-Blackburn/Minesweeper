@@ -1,3 +1,4 @@
+# Version 1.0 James Blackburn 2018
 from Buttons import Button
 from pygame.locals import *
 from Text import Text
