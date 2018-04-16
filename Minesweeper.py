@@ -62,20 +62,18 @@ class Tile(pygame.sprite.Sprite):
         self.x = x
         self.y = y
         pygame.sprite.Sprite.__init__(self)
-        self.state = random.randint(0,3)
         self.image = pygame.image.load("tile_sprite.png").convert()
         self.action = False
         self.flagged = False
         self.rect = self.image.get_rect()
         self.rect.center = (self.x, self.y)
-        tiles.add(self)
 
+    def update(self):
         if DEV == 1:
             if self.state == 3:
                 self.image = pygame.image.load("mine_sprite.png").convert()
-
-    def update(self):
         self.rect.center = (self.x, self.y)
+        
 
     def clicked(self):
         if pygame.mouse.get_pressed()[0]:
@@ -137,6 +135,14 @@ def generate_grid(SIZE):
     display.fill(GREY)
     title = Text(display,200,100,"Generating...",TITLE,BLACK)
     pygame.display.update()
+    if SIZE == 200:
+        RATIO = 6.4
+    elif SIZE == 400:
+        RATIO = 5
+    else:
+        RATIO = 3
+    number_of_mines = int((SIZE/2)/RATIO)
+    temp = []
     
     
     X_TIMES = int(SIZE/20)
@@ -146,10 +152,19 @@ def generate_grid(SIZE):
     for _ in range(Y_TIMES):
         for _ in range(X_TIMES):
             t = Tile(x,y)
+            t.state = 0
+            temp.append(t)
             x += 20
         legacy_x = x
         x = 100
         y += 20
+
+    for _ in range(number_of_mines):
+        tile = random.choice(temp)
+        tile.state = 3
+
+    for t in temp:
+        tiles.add(t)
                     
     for t in tiles:
         if t.state != 3:
