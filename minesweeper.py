@@ -199,9 +199,9 @@ def generate_grid(SIZE):
     if SIZE == 200:
         RATIO = 6.4
     elif SIZE == 400:
-        RATIO = 5
+        RATIO = 4
     else:
-        RATIO = 3
+        RATIO = 2
     number_of_mines = int((SIZE/2)/RATIO)
     temp = []
     
